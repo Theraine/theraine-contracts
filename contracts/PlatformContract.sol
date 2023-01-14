@@ -34,11 +34,19 @@ contract PlatformContract {
         }
     }
 
-    function getPlan(uint8 _id) public view returns (Plan memory) {
-        return plans[_id];
+    function getPlan(uint8 _planId) public view returns(Plan memory) {
+        return plans[_planId];
     }
 
-    function getPlans() public view returns (Plan[] memory) {
+    function getPlans() public view returns(Plan[] memory) {
         return plans;
     }
+
+    function subscribe(uint8 _planId) public payable {
+        if(msg.value != plans[_planId].price) {    revert();    }
+        (bool success, ) = payable(address(this)).call{value: plans[_planId].price}("");
+        if(!success) {    revert();    }
+    }
+
+    receive() payable external {}
 }
