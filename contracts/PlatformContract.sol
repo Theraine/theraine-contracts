@@ -3,6 +3,12 @@ pragma solidity ^0.8.9;
 
 contract PlatformContract {
 
+    constructor() {
+        owner = tx.origin;
+    }
+
+    address public owner;
+
     mapping(address => uint256) private usersSubDated;
 
     struct Plan {
@@ -15,7 +21,7 @@ contract PlatformContract {
     function subscribe(uint8 _planId) public payable {
         if(msg.value != plans[_planId].price) {    revert();    }
 
-        if(_userStatus(msg.sender)) {
+        if(userStatus(msg.sender)) {
             usersSubDated[msg.sender] += plans[_planId].duration;
         } else {
             usersSubDated[msg.sender] = block.timestamp + plans[_planId].duration;
@@ -52,11 +58,9 @@ contract PlatformContract {
     }
 
     function userStatus(address _user) public view returns(bool status) {
-        if(msg.sender != _user) {    revert();    }
-        status = _userStatus(_user);
-    }
-
-    function _userStatus(address _user) internal view returns(bool status) {
+        if(msg.sender != owner) {
+            if(msg.sender != _user) {    revert();    }
+        }
         if(usersSubDated[_user] >= block.timestamp) {
             status = true;
         }
