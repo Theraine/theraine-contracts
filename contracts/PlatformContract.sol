@@ -32,6 +32,7 @@ contract PlatformContract {
     }
 
     function addPlan(uint256 _price, uint256 _duration) public {
+        if(msg.sender != owner) {    revert();    }
         Plan memory p = Plan({
             price: _price,
             duration: _duration * 86_400
@@ -40,6 +41,7 @@ contract PlatformContract {
     }
 
     function removePlan(uint8 _id) public {
+        if(msg.sender != owner) {    revert();    }
         for (uint8 i = 0; i < plans.length; i++) {
             if (i == _id) {
                 plans[i] = plans[plans.length - 1];
