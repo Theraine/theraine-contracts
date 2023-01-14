@@ -27,4 +27,18 @@ contract ParentContract {
         _platformIds.increment();
         return address(pc);
     }
+
+    /**
+     * @dev gets a platform.
+     */
+    function getPlatform(uint256 _id) public view returns (Platform memory) {
+        return platforms[_id];
+    }
+
+    /**
+     * @dev gets all platforms.
+     */
+    function getPlatforms() public view returns (Platform[] memory) {
+        return platforms;
+    }
 }
