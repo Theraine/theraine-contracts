@@ -7,9 +7,10 @@ import "./PlatformContract.sol";
 contract ParentContract {
     using Counters for Counters.Counter;
     Counters.Counter private _platformIds;
+
     struct Platform {
-        uint256 id;
         bytes32 details;
+        address platform;
     }
 
     Platform[] private platforms;
@@ -18,13 +19,12 @@ contract ParentContract {
      * @dev Creates a new platform.
      */
     function createPlatform(bytes32 _details) public returns(address) {
+        PlatformContract pc = new PlatformContract();
         Platform memory p = Platform({
-            id: _platformIds.current(),
-            details: _details
+            details: _details,
+            platform: address(pc)
         });
         platforms.push(p);
-        PlatformContract pc = new PlatformContract();
-        _platformIds.increment();
         return address(pc);
     }
 
