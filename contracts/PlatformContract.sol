@@ -12,7 +12,7 @@ contract PlatformContract {
     function addPlan(uint256 _price, uint256 _duration) public {
         Plan memory p = Plan({
             price: _price,
-            duration: _duration
+            duration: _duration * 86_400
         });
         plans.push(p);
     }
