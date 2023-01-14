@@ -3,11 +3,27 @@ pragma solidity ^0.8.9;
 
 contract PlatformContract {
 
+    mapping(address => uint256) private usersSubDated;
+
     struct Plan {
         uint256 price;
         uint256 duration;
     }
+
     Plan[] private plans;
+
+    function subscribe(uint8 _planId) public payable {
+        if(msg.value != plans[_planId].price) {    revert();    }
+
+        if(_userStatus(msg.sender)) {
+            usersSubDated[msg.sender] += plans[_planId].duration;
+        } else {
+            usersSubDated[msg.sender] = block.timestamp + plans[_planId].duration;
+        }
+        
+        (bool success, ) = payable(address(this)).call{value: plans[_planId].price}("");
+        if(!success) {    revert();    }
+    }
 
     function addPlan(uint256 _price, uint256 _duration) public {
         Plan memory p = Plan({
@@ -35,10 +51,15 @@ contract PlatformContract {
         return plans;
     }
 
-    function subscribe(uint8 _planId) public payable {
-        if(msg.value != plans[_planId].price) {    revert();    }
-        (bool success, ) = payable(address(this)).call{value: plans[_planId].price}("");
-        if(!success) {    revert();    }
+    function userStatus(address _user) public view returns(bool status) {
+        if(msg.sender != _user) {    revert();    }
+        status = _userStatus(_user);
+    }
+
+    function _userStatus(address _user) internal view returns(bool status) {
+        if(usersSubDated[_user] >= block.timestamp) {
+            status = true;
+        }
     }
 
     receive() payable external {}
