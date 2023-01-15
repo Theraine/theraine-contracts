@@ -21,3 +21,12 @@ typechain-types
 cache
 artifacts
 
+#contracts
+contracts/Lock.sol
+
+#tests
+test/Lock.js
+
+#scripts
+scripts/deploy.js
+
