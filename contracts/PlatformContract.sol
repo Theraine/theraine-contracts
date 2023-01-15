@@ -59,6 +59,14 @@ contract PlatformContract {
         return plans;
     }
 
+    function getUserSubDated(address _user) public view returns(uint256) {
+        if(msg.sender != owner) {
+            if(msg.sender != _user) {    revert();    }
+        }
+        return usersSubDated[_user];
+    }
+
+
     function userStatus(address _user) public view returns(bool status) {
         if(msg.sender != owner) {
             if(msg.sender != _user) {    revert();    }
