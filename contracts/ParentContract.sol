@@ -1,12 +1,9 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
 
-import "@openzeppelin/contracts/utils/Counters.sol";
 import "./PlatformContract.sol";
 
 contract ParentContract {
-    using Counters for Counters.Counter;
-    Counters.Counter private _platformIds;
 
     struct Platform {
         bytes32 details;
