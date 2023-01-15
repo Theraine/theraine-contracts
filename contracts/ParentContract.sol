@@ -6,7 +6,7 @@ import "./PlatformContract.sol";
 contract ParentContract {
 
     struct Platform {
-        bytes32 details;
+        bytes details;
         address platform;
     }
 
@@ -15,7 +15,7 @@ contract ParentContract {
     /**
      * @dev Creates a new platform.
      */
-    function createPlatform(bytes32 _details) public returns(address) {
+    function createPlatform(bytes memory _details) public returns(address) {
         PlatformContract pc = new PlatformContract();
         Platform memory p = Platform({
             details: _details,
