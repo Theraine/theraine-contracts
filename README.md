@@ -22,7 +22,7 @@ The `ParentContract` contract has the following methods:
 
 The `PlatformContract` contract has the following methods:
 
-`subscribe(uint8 _planId)`: Allows a user to subscribe to a plan.
+- `subscribe(uint8 _planId)`: Allows a user to subscribe to a plan.
 - `addPlan(uint256 _price, uint256 _duration)`: Allows the owner to add a new plan.
 - `removePlan(uint8 _id)`: Allows the owner to remove a plan.
 - `getPlan(uint8 _planId)`: Allows to get a plan by its ID.
