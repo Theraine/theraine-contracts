@@ -53,7 +53,7 @@ The contracts are deployed on the Goerli testnet using Hardhat.
 5. In the Hardhat console, run migrate to deploy the contracts to the Goerli testnet
 6. Once the deployment is complete, the contracts' addresses will be displayed in the console
 
-Note: Make sure to have the necessary dependencies installed, including Hardhat and an Ethereum client such as Goerli or Rinkeby.
+Note: Make sure to have the necessary dependencies installed, including Hardhat and an Ethereum client such as Goerli.
 
 ## Testing
 The contracts include test cases that can be run using Hardhat. To run the tests, navigate to the repository's root directory and run npx hardhat test.
