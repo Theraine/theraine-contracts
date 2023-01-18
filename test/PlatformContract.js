@@ -114,7 +114,24 @@ describe("Platform Contract Tests", function() {
             expect(status).to.be.false;
         });
         
-        it("reverts when called by a non-owner address for a user that is not msg.sender", async function() {
+        it("returns user status when called by owner", async function() {
+            await platform.addPlan(ethers.utils.parseEther("1"), 1);
+            await platform.connect(otherAccount).subscribe(0, { value: ethers.utils.parseEther("1") });
+            const status = await platform.connect(owner).userStatus(otherAccount.address);
+
+            expect(status).to.be.true;
+        });
+
+        it("returns user status when caller is the user", async function() {
+            await platform.addPlan(ethers.utils.parseEther("1"), 1);
+            await platform.connect(otherAccount).subscribe(0, { value: ethers.utils.parseEther("1") });
+            const status = await platform.connect(otherAccount).userStatus(otherAccount.address);
+
+            expect(status).to.be.true;
+        });
+
+        it("reverts when caller is neither owner nor user", async function() {
+            await platform.addPlan(ethers.utils.parseEther("1"), 1);
             await expect(platform.connect(otherAccount).userStatus(owner.address)).to.be.reverted;
         });
     });
