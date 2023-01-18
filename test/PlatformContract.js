@@ -19,7 +19,9 @@ describe("Platform Contract Tests", function() {
 
         it("subscribes user to plan when msg.value is equal to the plan's price", async function() {
             await platform.addPlan(ethers.utils.parseEther("1"), 1);
-            await expect(platform.subscribe(0, { value: ethers.utils.parseEther("1") })).to.be.fulfilled;
+            await platform.subscribe(0, { value: ethers.utils.parseEther("1") });
+            const userStatus = await platform.userStatus(owner.address);
+            expect(userStatus).to.be.true;
         });
 
         it("subscribes user to plan when user does not have an active subscription", async function() {
@@ -33,11 +35,11 @@ describe("Platform Contract Tests", function() {
             await platform.addPlan(ethers.utils.parseEther("1"), 1);
             await platform.subscribe(0, { value: ethers.utils.parseEther("1") });
             const previousDated = await platform.getUserSubDated(owner.address);
-
+        
             await platform.subscribe(0, { value: ethers.utils.parseEther("1") });
             const currentDated = await platform.getUserSubDated(owner.address);
-
-            expect(currentDated).to.be.greaterThan(previousDated);
+        
+            expect(currentDated).to.be.above(previousDated);
         });
     });
 
