@@ -8,8 +8,9 @@ contract ParentContract {
     mapping(address => Platform[]) private userPlatforms;
 
     struct Platform {
-        bytes details;
+        uint256 id;
         address platform;
+        bytes details;
     }
 
     Platform[] private platforms;
@@ -20,8 +21,9 @@ contract ParentContract {
     function createPlatform(bytes memory _details) public {
         PlatformContract pc = new PlatformContract();
         Platform memory p = Platform({
-            details: _details,
-            platform: address(pc)
+            id: platforms.length,
+            platform: address(pc),
+            details: _details
         });
         platforms.push(p);
         userLatestPlatform[msg.sender] = p;
