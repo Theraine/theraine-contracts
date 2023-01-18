@@ -1,12 +1,9 @@
 const { ethers } = require("hardhat");
 const { expect } = require("chai");
 const web3 = require("web3");
-const PlatformContract = require("../artifacts/contracts/PlatformContract.sol/PlatformContract.json");
 
 describe("Parent Contract Tests", function() {
     let parent;
-    let platform;
-    let platformAddress;
 
     beforeEach(async function() {
         const Parent = await ethers.getContractFactory("ParentContract");
