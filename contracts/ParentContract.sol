@@ -4,6 +4,8 @@ pragma solidity ^0.8.9;
 import "./PlatformContract.sol";
 
 contract ParentContract {
+    mapping(address => Platform) private userLatestPlatform;
+    mapping(address => Platform[]) private userPlatforms;
 
     struct Platform {
         bytes details;
@@ -15,14 +17,15 @@ contract ParentContract {
     /**
      * @dev Creates a new platform.
      */
-    function createPlatform(bytes memory _details) public returns(address) {
+    function createPlatform(bytes memory _details) public {
         PlatformContract pc = new PlatformContract();
         Platform memory p = Platform({
             details: _details,
             platform: address(pc)
         });
         platforms.push(p);
-        return address(pc);
+        userLatestPlatform[msg.sender] = p;
+        userPlatforms[msg.sender].push(p);
     }
 
     /**
@@ -37,5 +40,19 @@ contract ParentContract {
      */
     function getPlatforms() public view returns (Platform[] memory) {
         return platforms;
+    }
+
+    /**
+     * @dev gets all platforms for a user.
+     */
+    function getUserPlatforms() public view returns (Platform[] memory) {
+        return userPlatforms[msg.sender];
+    }
+
+    /**
+     * @dev gets the latest platform for a user.
+     */
+    function getUserLatestPlatform() public view returns (Platform memory) {
+        return userLatestPlatform[msg.sender];
     }
 }
