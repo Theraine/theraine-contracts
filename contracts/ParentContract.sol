@@ -4,10 +4,12 @@ pragma solidity ^0.8.9;
 import "./PlatformContract.sol";
 
 contract ParentContract {
+    
     /**
      * @dev mapping of users to their latest platform
      */
     mapping(address => Platform) private userLatestPlatform;
+
     /**
      * @dev mapping of users to their all platforms
      */
